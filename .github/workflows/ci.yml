@@ -10,8 +10,8 @@ on:
 
 env:
   AWS_REGION: us-east-2
-  ECS_SERVICE: test-fargate               
-  ECS_CLUSTER: test        
+  ECS_SERVICE: test-fargate
+  ECS_CLUSTER: test
   ECS_TASK_DEFINITION: .aws/td.json 
   CONTAINER_NAME: ruby
 
@@ -37,12 +37,12 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.REPO_NAME }}
-          IMAGE_TAG: ${{ github.sha }}
+          IMAGE_TAG: v1
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           echo "Pushing image to ECR..."
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-
+          
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
