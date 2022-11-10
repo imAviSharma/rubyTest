@@ -8,6 +8,13 @@ on:
     branches:
       - "master"
 
+env:
+  AWS_REGION: us-east-2
+  ECS_SERVICE: test-fargate               
+  ECS_CLUSTER: test        
+  ECS_TASK_DEFINITION: .aws/td.json 
+  CONTAINER_NAME: ruby
+
 jobs:
   deploy:
     runs-on: ubuntu-20.04
@@ -20,8 +27,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.SECRET_KEY }}
-          aws-region: us-east-2
-
+          aws-region: ${{env.AWS_REGION}}
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
@@ -41,14 +47,14 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: task-definition.json
-          container-name: my-container
+          task-definition: ${{ env.ECS_TASK_DEFINITION }}
+          container-name: ${{ env.CONTAINER_NAME }}
           image: ${{ steps.build-image.outputs.image }}
 
-      # - name: Deploy Amazon ECS task definition
-      #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-      #   with:
-      #     task-definition: ${{ steps.task-def.outputs.task-definition }}
-      #     service: my-service
-      #     cluster: my-cluster
-      #     wait-for-service-stability: true
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
