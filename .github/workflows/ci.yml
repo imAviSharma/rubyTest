@@ -10,7 +10,7 @@ on:
 
 env:
   AWS_REGION: us-east-2
-  ECS_SERVICE: test-fargate
+  ECS_SERVICE: test-servicec
   ECS_CLUSTER: test
   ECS_TASK_DEFINITION: .aws/td.json 
   CONTAINER_NAME: ruby
