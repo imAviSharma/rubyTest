@@ -11,7 +11,7 @@ on:
 env:
   AWS_REGION: us-east-2
   ECS_SERVICE: AS-KT-Service
-  ECS_CLUSTER: AS-KT-demo
+  ECS_CLUSTER: AS-KT-Cluster
   ECS_TASK_DEFINITION: .aws/td.json 
   CONTAINER_NAME: AS-KT-Container
 
