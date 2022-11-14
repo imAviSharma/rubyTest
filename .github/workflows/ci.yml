@@ -10,10 +10,10 @@ on:
 
 env:
   AWS_REGION: us-east-2
-  ECS_SERVICE: as-kt-service
-  ECS_CLUSTER: as-kt-cluster
+  ECS_SERVICE: AS-KT-demo-service
+  ECS_CLUSTER: AS-kt-demo-cluster
   ECS_TASK_DEFINITION: .aws/td.json
-  CONTAINER_NAME: as-kt-container
+  CONTAINER_NAME: as-kt-demo-container
 
 jobs:
   deploy:
